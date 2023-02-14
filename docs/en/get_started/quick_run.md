@@ -2,7 +2,9 @@
 
 ## Inference
 
-Please refer to [here](install.md#verify-the-installation) for a quick inference run. A detailed description of MMOCR's inference interface can be found [here](../user_guides/inference.md)
+Please refer to [here](install.md#verify-the-installation)
+for a quick inference run.
+A detailed description of MMOCR's inference interface can be found [here](../user_guides/inference.md)
 
 ```{note}
 In addition to using our well-provided pre-trained models, you can also train models on your own datasets. In the next section, we will take you through the basic functions of MMOCR by training DBNet on the mini [ICDAR 2015](https://rrc.cvc.uab.es/?ch=4&com=downloads) dataset as an example.
@@ -157,7 +159,9 @@ For advanced usage of testing, such as CPU testing, multi-GPU testing, and clust
 
 ## Visualize the Outputs
 
-We can also visualize its prediction output in `test.py`. You can open a pop-up visualization window with the `show` parameter; and can also specify the directory where the prediction result images are exported with the `show-dir` parameter.
+We can also visualize its prediction output in `test.py`.
+You can open a pop-up visualization window with the `show` parameter;
+and can also specify the directory where the prediction result images are exported with the `show-dir` parameter.
 
 ```Bash
 python tools/test.py configs/textdet/dbnet/dbnet_resnet18_fpnc_1200e_icdar2015.py work_dirs/dbnet_r18_fpnc_1200e_icdar2015/epoch_400.pth --show-dir imgs/
