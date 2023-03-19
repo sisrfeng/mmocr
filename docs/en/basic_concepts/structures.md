@@ -82,7 +82,17 @@ The conventions for the `LabelData` fields in MMOCR are shown in the following t
 
 ## DataSample xxxDataSample
 
-By defining a uniform data structure, we can easily encapsulate the annotation data and prediction results in a unified way, making data transfer between different modules of the code base easier. In MMOCR, we have designed three data structures based on the data needed in three tasks: [`TextDetDataSample`](mmocr.structures.textdet_data_sample.TextDetDataSample), [`TextRecogDataSample`](mmocr.structures.textrecog_data_sample.TextRecogDataSample), and [`KIEDataSample`](mmocr.structures.kie_data_sample.KIEDataSample). These data structures all inherit from {external+mmengine:doc}`MMEngine: Base Data Element <advanced_tutorials/data_element>`, which is used to hold all annotation and prediction information required by each task.
+By defining a uniform data structure,
+    we can easily encapsulate the annotation data and
+    prediction results in a unified way,
+    making data transfer between different modules of the code base easier.
+    In MMOCR, we have designed three data structures based on
+    the data needed in three tasks:
+        [`TextDetDataSample`](mmocr.structures.textdet_data_sample.TextDetDataSample),
+        [`TextRecogDataSample`](mmocr.structures.textrecog_data_sample.TextRecogDataSample),
+        and [`KIEDataSample`](mmocr.structures.kie_data_sample.KIEDataSample).
+        These data structures all inherit from {external+mmengine:doc}`MMEngine: Base Data Element <advanced_tutorials/data_element>`,
+        which is used to hold all annotation and prediction information required by each task.
 
 ### Text Detection - TextDetDataSample
 
@@ -130,10 +140,18 @@ data_sample.pred_instances = pred_instances
 
 ### Text Recognition - TextRecogDataSample
 
-[`TextRecogDataSample`](mmocr.structures.textrecog_data_sample.TextRecogDataSample) is used to encapsulate the data for the text recognition task. It has two fields, `gt_text` and `pred_text` , which are used to store annotation information and prediction results, respectively.
+[`TextRecogDataSample`](mmocr.structures.textrecog_data_sample.TextRecogDataSample)
+is used to
+encapsulate the data for the text recognition task.
+It has two fields,
+    `gt_text` and `pred_text` ,
+which are used to
+store annotation information and
+prediction results,
+respectively.
 
 |           |                                            |                     |
-| --------- | ------------------------------------------ | ------------------- |
+|-----------|--------------------------------------------|---------------------|
 | Field     | Type                                       | Description         |
 | gt_text   | [`LabelData`](#text-recognition-labeldata) | Label information.  |
 | pred_text | [`LabelData`](#text-recognition-labeldata) | Prediction results. |
@@ -146,7 +164,9 @@ from mmengine.data import TextRecogDataSample
 
 data_sample = TextRecogDataSample()
 # Define the ground truth data
-img_meta = dict(img_shape=(800, 1196, 3), pad_shape=(800, 1216, 3))
+img_meta = dict(img_shape=(800, 1196, 3),
+                pad_shape=(800, 1216, 3),
+               )
 gt_text = LabelData(metainfo=img_meta)
 gt_text.item = 'mmocr'
 data_sample.gt_text = gt_text
