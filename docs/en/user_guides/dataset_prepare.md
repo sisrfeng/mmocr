@@ -2,11 +2,18 @@
 
 ## Introduction
 
-After decades of development, the OCR community has produced a series of related datasets that often provide annotations of text in a variety of styles, making it necessary for users to convert these datasets to the required format when using them. MMOCR supports dozens of commonly used text-related datasets and provides a [data preparation script](./data_prepare/dataset_preparer.md) to help users prepare the datasets with only one command.
+MMOCR supports dozens of commonly used text-related datasets and
+provides a [data preparation script](./data_prepare/dataset_preparer.md)
+to help users prepare the datasets with only one command.
 
 In the following, we provide a brief overview of the data formats defined in MMOCR for each task.
 
-- As shown in the following code block, the text detection task uses the data format `TextDetDataset`, which holds the bounding box annotations, file names, and other information required for the text detection task. We provide a sample annotation file in the `tests/data/det_toy_dataset/instances_test.json` path.
+- As shown in the following code block,
+the text detection task uses the data format `TextDetDataset`,
+which holds the bounding box annotations,
+file names,
+and other information required for the text detection task.
+We provide a sample annotation file in the `tests/data/det_toy_dataset/instances_test.json` path.
 
   ```json
   {
@@ -37,7 +44,12 @@ In the following, we provide a brief overview of the data formats defined in MMO
   }
   ```
 
-- As shown in the following code block, the text recognition task uses the data format `TextRecogDataset`, which holds information such as text instances and image paths required by the text recognition task. An example annotation file is provided in the `tests/data/rec_toy_dataset/labels.json` path.
+- As shown in the following code block,
+the text recognition task uses the data format `TextRecogDataset`,
+which holds information such as text instances and
+image paths required by
+the text recognition task.
+An example  annotation file is provided in the `tests/data/rec_toy_dataset/labels.json` path.
 
   ```json
   {
@@ -63,13 +75,18 @@ In the following, we provide a brief overview of the data formats defined in MMO
 
 ## Downloading Datasets and Format Conversion
 
-As an example of the data preparation steps, you can use the following command to prepare the ICDAR 2015 dataset for text detection task.
+As an example
+of the data preparation steps,
+you can use the following command to prepare the ICDAR 2015 dataset for text detection task.
 
 ```shell
 python tools/dataset_converters/prepare_dataset.py icdar2015 --task textdet
 ```
 
-Then, the dataset has been downloaded and converted to MMOCR format, and the file directory structure is as follows:
+Then,
+the dataset has been downloaded and
+converted to MMOCR format,
+and the file directory structure is as follows:
 
 ```text
 data/icdar2015
@@ -80,7 +97,10 @@ data/icdar2015
 └── textdet_train.json
 ```
 
-Once your dataset has been prepared, you can use the [browse_dataset.py](./useful_tools.md#dataset-visualization-tool) to visualize the dataset and check if the annotations are correct.
+Once your dataset has been prepared,
+you can use the [browse_dataset.py](./useful_tools.md#dataset-visualization-tool)
+to visualize the dataset and
+check if the annotations are correct.
 
 ```bash
 python tools/analysis_tools/browse_dataset.py configs/textdet/_base_/datasets/icdar2015.py
@@ -90,7 +110,17 @@ python tools/analysis_tools/browse_dataset.py configs/textdet/_base_/datasets/ic
 
 ### Single Dataset Training
 
-When training or evaluating a model on new datasets, we need to write the dataset config where the image path, annotation path, and image prefix are set. The path `configs/xxx/_base_/datasets/` is pre-configured with the commonly used datasets in MMOCR (if you use `prepare_dataset.py` to prepare dataset, this config will be generated automatically), here we take the ICDAR 2015 dataset as an example (see `configs/textdet/_base_/datasets/icdar2015.py`).
+When training or
+evaluating a model on new datasets,
+we need to write the dataset config where the image path,
+annotation path,
+and image prefix are set.
+
+The path `configs/xxx/_base_/datasets/` is pre-configured with the commonly used datasets in MMOCR
+(if you use `prepare_dataset.py` to prepare dataset,
+    this config will be generated automatically),
+here we take the ICDAR 2015 dataset as an example
+(see `configs/textdet/_base_/datasets/icdar2015.py`).
 
 ```Python
 icdar2015_textdet_data_root = 'data/icdar2015' # dataset root path
@@ -102,6 +132,7 @@ icdar2015_textdet_train = dict(
     ann_file='textdet_train.json',                       # name of annotation
     filter_cfg=dict(filter_empty_gt=True, min_size=32),  # filtering empty images
     pipeline=None)
+
 # Test set config
 icdar2015_textdet_test = dict(
     type='OCRDataset',
@@ -111,7 +142,10 @@ icdar2015_textdet_test = dict(
     pipeline=None)
 ```
 
-After configuring the dataset, we can import it in the corresponding model configs. For example, to train the "DBNet_R18" model on the ICDAR 2015 dataset.
+After configuring the dataset,
+we can import it in the corresponding model configs.
+For example,
+to train the "DBNet_R18" model on the ICDAR 2015 dataset.
 
 ```Python
 _base_ = [
@@ -145,7 +179,12 @@ test_dataloader = val_dataloader
 
 ### Multi-dataset Training
 
-In addition, [`ConcatDataset`](mmocr.datasets.ConcatDataset) enables users to train or test the model on a combination of multiple datasets. You just need to set the dataset type in the dataloader to `ConcatDataset` in the configuration file and specify the corresponding list of datasets.
+In addition,
+[`ConcatDataset`](mmocr.datasets.ConcatDataset)
+enables users to train or
+test the model on a combination of multiple datasets.
+You just need to set the dataset type in the dataloader to `ConcatDataset` in the configuration file and
+specify the corresponding list of datasets.
 
 ```Python
 train_list = [ic11, ic13, ic15]
@@ -154,7 +193,14 @@ train_dataloader = dict(
         type='ConcatDataset', datasets=train_list, pipeline=train_pipeline))
 ```
 
-For example, the following configuration uses the MJSynth dataset for training and 6 academic datasets (CUTE80, IIIT5K, SVT, SVTP, ICDAR2013, ICDAR2015) for testing.
+For example,
+the following configuration uses the MJSynth dataset for training and
+6 academic datasets (CUTE80,
+IIIT5K,
+SVT, SVTP,
+ICDAR2013,
+ICDAR2015)
+for testing.
 
 ```Python
 _base_ = [ # Import all dataset configurations you want to use

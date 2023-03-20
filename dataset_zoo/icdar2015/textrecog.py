@@ -1,7 +1,8 @@
-# This configuration prepares the ICDAR15 1811 and 2077
-# version, and uses ICDAR15 2077 version by default.
+# This configuration prepares the ICDAR15 1811 and 2077  version,
+# and uses ICDAR15 2077 version by default.
 # Read https://arxiv.org/pdf/1904.01906.pdf for more info.
-data_root = 'data/icdar2015'
+
+data_root  = 'data/icdar2015'
 cache_path = 'data/cache'
 
 train_preparer = dict(
@@ -9,16 +10,18 @@ train_preparer = dict(
         type='NaiveDataObtainer',
         cache_path=cache_path,
         files=[
-            dict(
-                url='https://rrc.cvc.uab.es/downloads/'
-                'ch4_training_word_images_gt.zip',
-                save_name='ic15_textrecog_train_img_gt.zip',
-                md5='600caf8c6a64a3dcf638839820edcca9',
-                content=['image', 'annotation'],
-                mapping=[[
-                    'ic15_textrecog_train_img_gt/gt.txt',
-                    'annotations/train.txt'
-                ], ['ic15_textrecog_train_img_gt', 'textrecog_imgs/train']]),
+            dict(url='https://rrc.cvc.uab.es/downloads/''ch4_training_word_images_gt.zip',
+                 save_name = 'ic15_textrecog_train_img_gt.zip',
+                 md5       = '600caf8c6a64a3dcf638839820edcca9',
+                 content   = ['image', 'annotation'],
+                 mapping   = [['ic15_textrecog_train_img_gt/gt.txt',
+                               'annotations/train.txt',
+                              ],
+                              ['ic15_textrecog_train_img_gt',
+                               'textrecog_imgs/train',
+                              ],
+                         ],
+                ),
         ]),
     gatherer=dict(type='MonoGatherer', ann_name='train.txt'),
     parser=dict(type='ICDARTxtTextRecogAnnParser', encoding='utf-8-sig'),

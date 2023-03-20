@@ -59,7 +59,7 @@ Models:
     Config: configs/textrecog/svtr/svtr-base_20e_st_mj.py
     Metadata:
       Training Data:
-        - SynthText
+        # - SynthText
         - Syn90k
     Results:
       - Task: Text Recognition

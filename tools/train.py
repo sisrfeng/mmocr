@@ -50,10 +50,12 @@ def parse_args():
 
 
 def main():
+    import pudb; pu.db
     args = parse_args()
+    # print(f'{args= }')
 
     # load config
-    cfg = Config.fromfile(args.config)
+    cfg          = Config.fromfile(args.config)
     cfg.launcher = args.launcher
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
@@ -93,6 +95,7 @@ def main():
             raise RuntimeError('Can not find "auto_scale_lr" or '
                                '"auto_scale_lr.base_batch_size" in your'
                                ' configuration file.')
+
 
     # build the runner from config
     if 'runner_type' not in cfg:

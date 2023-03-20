@@ -1,7 +1,9 @@
 # Text Recognition
 
 ```{note}
-This page is a manual preparation guide for datasets not yet supported by [Dataset Preparer](./dataset_preparer.md), which all these scripts will be eventually migrated into.
+This page is a manual preparation guide for datasets not yet supported by
+[Dataset Preparer](./dataset_preparer.md),
+which all these scripts will be eventually migrated into.
 ```
 
 ## Overview
@@ -29,7 +31,9 @@ This page is a manual preparation guide for datasets not yet supported by [Datas
 |       HierText        | [homepage](https://github.com/google-research-datasets/hiertext) |                                -                                |                                -                                |
 |          ArT          |       [homepage](https://rrc.cvc.uab.es/?ch=14)       |                                -                                |                                -                                |
 
-(\*) Since the official homepage is unavailable now, we provide an alternative for quick reference. However, we do not guarantee the correctness of the dataset.
+(\*) Since the official homepage is unavailable now,
+we provide an alternative for quick reference.
+However, we do not guarantee the correctness of the dataset.
 
 ### Install AWS CLI (optional)
 
@@ -104,7 +108,9 @@ This page is a manual preparation guide for datasets not yet supported by [Datas
 ## MJSynth (Syn90k)
 
 - Step1: Download `mjsynth.tar.gz` from [homepage](https://www.robots.ox.ac.uk/~vgg/data/text/)
-- Step2: Download [train_labels.json](https://download.openmmlab.com/mmocr/data/1.x/recog/Syn90k/train_labels.json) (8,919,273 annotations) and [subset_train_labels.json](https://download.openmmlab.com/mmocr/data/1.x/recog/Syn90k/subset_train_labels.json) (2,400,000 randomly sampled annotations).
+- Step2: Download [train_labels.json](https://download.openmmlab.com/mmocr/data/1.x/recog/Syn90k/train_labels.json) (8,919,273 annotations)
+                and [subset_train_labels.json](https://download.openmmlab.com/mmocr/data/1.x/recog/Syn90k/subset_train_labels.json)
+(2,400,000 randomly sampled annotations).
 
 ```{note}
 Please make sure you're using the right annotation to train the model by checking its dataset specs in Model Zoo.
