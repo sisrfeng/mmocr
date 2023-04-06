@@ -1,7 +1,18 @@
-import pudb; pu.db
 _base_ = [
     'svtr-tiny_20e_st_mj.py',
 ]
+
+
+
+# print(f'{_base_= }')
+
+# print(f'{type(_base_)= }')
+    # type(_base_)= <class 'mmengine.config.config.ConfigDict'>
+    # _base_ 不是一个list!!!!!
+
+
+# 我是一个故意的error
+# print('本文件被ast.parse, 再执行, 所以故意的error, 在parse时就引发报错, 不会print(_base_)')
 
 model = dict(
              preprocessor = dict(output_image_size=(48, 160), ),
@@ -15,4 +26,4 @@ model = dict(
                                 ),
              decoder       = dict(in_channels=256))
 
-train_dataloader = dict(batch_size=256, )
+train_dataloader = dict(batch_size=32, )

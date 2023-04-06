@@ -13,7 +13,9 @@ Only one line of command is needed to complete the data download, decompression,
 
 ```bash
 python tools/dataset_converters/prepare_dataset.py [$DATASET_NAME] --task [$TASK] --nproc [$NPROC]
+python tools/dataset_converters/prepare_dataset.py [$DATASET_NAME] --task textrecog --nproc [$NPROC]  --split train  test
 ```
+
 
 | ARGS               | Type | Description                                                                                                                               |
 | ------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -25,13 +27,18 @@ python tools/dataset_converters/prepare_dataset.py [$DATASET_NAME] --task [$TASK
 | --overwrite-cfg    | str  | Whether to overwrite the dataset config file if it already exists in `configs/{task}/_base_/datasets`.                                    |
 | --dataset-zoo-path | str  | Path to the dataset config file. If not specified, the default path is `./dataset_zoo`.                                                   |
 
-For example, the following command shows how to use the script to prepare the ICDAR2015 dataset for text detection task.
+For example,
+the following command shows how to use the script to prepare the ICDAR2015 dataset for text detection task.
 
 ```bash
 python tools/dataset_converters/prepare_dataset.py icdar2015 --task textdet
 ```
 
-Also, the script supports preparing multiple datasets at the same time. For example, the following command shows how to prepare the ICDAR2015 and TotalText datasets for text recognition task.
+Also,
+the script supports preparing multiple datasets at the same time.
+For example,
+the following command shows how to prepare the ICDAR2015 and
+TotalText datasets for text recognition task.
 
 ```bash
 python tools/dataset_converters/prepare_dataset.py icdar2015 totaltext --task textrecog
@@ -43,15 +50,30 @@ To check the supported datasets of Dataset Preparer, please refer to [Dataset Zo
 
 ### LMDB Format
 
-In text recognition tasks, we usually use LMDB format to store data to speed up data loading. When using the `prepare_dataset.py` script to prepare data, you can store data to the LMDB format by the `--lmdb` parameter. For example:
-
+In text recognition tasks,
+we usually use LMDB format to store data to speed up data loading.
+When using the `prepare_dataset.py` script to prepare data,
+you can store data to the LMDB format by
+the `--lmdb` parameter.
+For example: 
 ```bash
 python tools/dataset_converters/prepare_dataset.py icdar2015 --task textrecog --lmdb
 ```
 
-As soon as the dataset is prepared, Dataset Preparer will generate `icdar2015_lmdb.py` in the `configs/textrecog/_base_/datasets/` directory. You can inherit this file and point the `dataloader` to the LMDB dataset. Moreover, the LMDB dataset needs to be loaded by [`LoadImageFromNDArray`](mmocr.datasets.transforms.LoadImageFromNDArray), thus you also need to modify `pipeline`.
+As soon as the dataset is prepared,
+Dataset Preparer will generate `icdar2015_lmdb.py` in the `configs/textrecog/_base_/datasets/` directory.
+You can inherit this file and
+point the `dataloader` to the LMDB dataset.
 
-For example, if we want to change the training set of `configs/textrecog/crnn/crnn_mini-vgg_5e_mj.py` to icdar2015 generated before, we need to perform the following modifications:
+Moreover,
+the LMDB dataset needs to be loaded by  [`LoadImageFromNDArray`](mmocr.datasets.transforms.LoadImageFromNDArray),
+thus you also need to modify `pipeline`.
+
+For example,
+if we want to change the training set of
+`configs/textrecog/crnn/crnn_mini-vgg_5e_mj.py` 
+to icdar2015 generated before,
+    we need to perform the following modifications:
 
 1. Modify `configs/textrecog/crnn/crnn_mini-vgg_5e_mj.py`:
 
@@ -65,7 +87,9 @@ For example, if we want to change the training set of `configs/textrecog/crnn/cr
     ...
    ```
 
-2. Modify `train_pipeline` in `configs/textrecog/crnn/_base_crnn_mini-vgg.py`, change `LoadImageFromFile` to `LoadImageFromNDArray`:
+2. Modify `train_pipeline` 
+    in `configs/textrecog/crnn/_base_crnn_mini-vgg.py`,
+    change `LoadImageFromFile` to `LoadImageFromNDArray`:
 
    ```python
    train_pipeline = [
@@ -81,7 +105,12 @@ For example, if we want to change the training set of `configs/textrecog/crnn/cr
 
 ### Configuration of Dataset Preparer
 
-Dataset preparer uses a modular design to enhance extensibility, which allows users to extend it to other public or private datasets easily. The configuration files of the dataset preparers are stored in the `dataset_zoo/`, where all the configs of currently supported datasets can be found here. The directory structure is as follows:
+Dataset preparer uses a modular design to enhance extensibility,
+which allows users to extend it to other public or
+private datasets easily.
+The configuration files of the dataset preparers are stored in the `dataset_zoo/`,
+where all the configs of currently supported datasets can be found here.
+The directory structure is as follows:
 
 ```text
 dataset_zoo/
@@ -98,11 +127,33 @@ dataset_zoo/
     └── textspotting.py
 ```
 
-`metafile.yml` is the metafile of the dataset, which contains the basic information of the dataset, including the year of publication, the author of the paper, and other information such as license. The other files named by the task are the configuration files of the dataset preparer, which are used to configure the download, decompression, format conversion, etc. of the dataset. These configs are in Python format, and their usage is completely consistent with the configuration files in MMOCR repo. See [Configuration File Documentation](../config.md) for detailed usage.
+`metafile.yml` is the metafile of the dataset,
+which contains the basic information of the dataset,
+    including the year of publication,
+    the author of the paper,
+    and other information such as license.
+
+The other files 
+named by  the task 
+are the configuration files of the dataset preparer,
+    which are used to
+    configure the download,
+    decompression,
+    format conversion,
+    etc.
+    of the dataset.
+
+These configs are in Python format,
+and their usage is completely consistent with the configuration files in MMOCR repo.
+See [Configuration File Documentation](../config.md)
+for detailed usage.
+
+
 
 #### Metafile
 
-Take the ICDAR2015 dataset as an example, the `metafile.yml` stores the basic information of the dataset:
+Take the ICDAR2015 dataset as an example,
+the `metafile.yml` stores the basic information of the dataset:
 
 ```yaml
 Name: 'Incidental Scene Text IC15'
@@ -135,7 +186,12 @@ Data:
     Link: https://creativecommons.org/licenses/by/4.0/
 ```
 
-It is not mandatory to use the metafile in the dataset preparation process (so users can ignore this file when preparing private datasets), but in order to better understand the information of each public dataset, we recommend that users read the metafile before preparing the dataset, which will help to understand whether the datasets meet their needs.
+It is not mandatory to use the metafile in the dataset preparation process
+(so users can ignore this file when preparing private datasets),
+but in order to
+better understand the information of each public dataset,
+we recommend that users read the metafile before preparing the dataset,
+which will help to understand whether the datasets meet their needs.
 
 ```{warning}
 The following section is outdated as of MMOCR 1.0.0rc6.
@@ -143,7 +199,9 @@ The following section is outdated as of MMOCR 1.0.0rc6.
 
 #### Config of Dataset Preparer
 
-Next, we will introduce the conventional fields and usage of the dataset preparer configuration files.
+Next,
+we will introduce the conventional fields and
+usage of the dataset preparer configuration files.
 
 In the configuration files, there are two fields `data_root` and `cache_path`, which are used to store the converted dataset and the temporary files such as the archived files downloaded during the data preparation process.
 
@@ -228,11 +286,41 @@ one-to-many
 ├── gt.txt
 ```
 
-Therefore, we provide two built-in gatherers, `pair_gather` and `mono_gather`, to handle the two cases. `pair_gather` is used for the case of many-to-many, and `mono_gather` is used for the case of one-to-many. `pair_gather` needs to specify the `suffixes` parameter to indicate the suffix of the image, such as `suffixes=[.jpg,.JPG]` in the above example. In addition, we need to specify the corresponding relationship between the image and the annotation file through the regular expression, such as `rule=[r'img_(\d+)\.([jJ][pP][gG])'，r'gt_img_\1.txt']` in the above example. Where `\d+` is used to match the serial number of the image, `([jJ][pP][gG])` is used to match the suffix of the image, and `\_1` matches the serial number of the image and the serial number of the annotation file.
+Therefore,
+we provide two built-in gatherers,
+`pair_gather` and `mono_gather`,
+to handle the two cases.
+`pair_gather` is used for the case of many-to-many,
+and `mono_gather` is used for the case of one-to-many.
+`pair_gather` needs to specify the `suffixes` parameter to indicate the suffix of the image,
+such as `suffixes=[.jpg,.JPG]` in the above example.
+In addition,
+we need to specify the corresponding relationship between
+the image and
+the annotation file through
+the regular expression,
+such as `rule=[r'img_(\d+)\.([jJ][pP][gG])'，r'gt_img_\1.txt']` in the above example.
+Where `\d+` is used to
+match the serial number of the image,
+`([jJ][pP][gG])` is used to
+match the suffix of the image,
+and `\_1` matches the serial number of the image and
+the serial number of the annotation file.
 
 When the image and annotation file are matched, the original annotations will be parsed. Since the annotation format is usually varied from dataset to dataset, the parsers are usually dataset related. Then, the parser will pack the required data into the MMOCR format.
 
-Finally, we can specify the dumpers to decide the data format. Currently, we support `JsonDumper`, `WildreceiptOpensetDumper`, and `TextRecogLMDBDumper`. They are used to save the data in the standard MMOCR Json format, Wildreceipt format, and the LMDB format commonly used in academia in the field of text recognition, respectively.
+Finally,
+we can specify the dumpers to decide the data format.
+Currently,
+we support `JsonDumper`,
+        `WildreceiptOpensetDumper`,
+and `TextRecogLMDBDumper`.
+
+They are used to
+save the data in the standard MMOCR Json format,
+Wildreceipt format,
+and the LMDB format commonly used in academia in the field of text recognition,
+respectively.
 
 ### Use DataPreparer to prepare customized dataset
 

@@ -9,11 +9,13 @@ to help users prepare the datasets with only one command.
 In the following, we provide a brief overview of the data formats defined in MMOCR for each task.
 
 - As shown in the following code block,
-the text detection task uses the data format `TextDetDataset`,
-which holds the bounding box annotations,
-file names,
-and other information required for the text detection task.
-We provide a sample annotation file in the `tests/data/det_toy_dataset/instances_test.json` path.
+    the text detection task uses the data format `TextDetDataset`,
+    which holds 
+        the bounding box annotations,
+        file names,
+        and other information required for the text detection task.
+
+    We provide a sample annotation file in the `tests/data/det_toy_dataset/instances_test.json` path.
 
   ```json
   {
@@ -45,11 +47,11 @@ We provide a sample annotation file in the `tests/data/det_toy_dataset/instances
   ```
 
 - As shown in the following code block,
-the text recognition task uses the data format `TextRecogDataset`,
-which holds information such as text instances and
-image paths required by
-the text recognition task.
-An example  annotation file is provided in the `tests/data/rec_toy_dataset/labels.json` path.
+    the text recognition task uses the data format `TextRecogDataset`,
+    which holds information such as text instances and
+    image paths required by
+    the text recognition task.
+ An ¿example  annotation file ¿is provided in the `tests/data/rec_toy_dataset/labels.json` path.
 
   ```json
   {

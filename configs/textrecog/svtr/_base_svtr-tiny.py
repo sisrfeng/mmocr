@@ -1,12 +1,13 @@
-dictionary = dict(
-    type='Dictionary',
-    dict_file='{{ fileDirname }}/../../../dicts/lower_english_digits.txt',
-    with_padding=True,
-    with_unknown=True,
-)
+dictionary = dict(type         = 'Dictionary',
+                  # dict_file    = '{{ fileDirname }}/../../../dicts/lower_english_digits.txt',
+                  dict_file    = '{{ fileDirname }}/../../../dicts/chinese_english_digits.txt',
+                  with_padding = True,
+                  with_unknown = True,
+                 )
 
 model = dict(
     type='SVTR',
+
     preprocessor=dict(
         type='STN',
         in_channels=3,
@@ -14,6 +15,7 @@ model = dict(
         output_image_size=(32, 100),
         num_control_points=20,
         margins=[0.05, 0.05]),
+
     encoder=dict(
         type='SVTREncoder',
         img_size=[32, 100],
@@ -27,6 +29,7 @@ model = dict(
         merging_types='Conv',
         prenorm=False,
         max_seq_len=25),
+
     decoder=dict(
         type='SVTRDecoder',
         in_channels=192,
@@ -34,6 +37,7 @@ model = dict(
             type='CTCModuleLoss', letter_case='lower', zero_infinity=True),
         postprocessor=dict(type='CTCPostProcessor'),
         dictionary=dictionary),
+
     data_preprocessor=dict(
         type='TextRecogDataPreprocessor', mean=[127.5], std=[127.5]))
 
@@ -41,22 +45,22 @@ file_client_args = dict(backend='disk')
 
 train_pipeline = [
     dict(
-        type='LoadImageFromFile',
-        file_client_args=file_client_args,
-        ignore_empty=True,
-        min_size=5),
+        type             = 'LoadImageFromFile' ,
+        file_client_args = file_client_args    ,
+        ignore_empty     = True                ,
+        min_size         = 5)                  ,
     dict(type='LoadOCRAnnotations', with_text=True),
     dict(
-        type='RandomApply',
-        prob=0.4,
-        transforms=[
+        type       = 'RandomApply' ,
+        prob       = 0.4           ,
+        transforms = [
             dict(type='TextRecogGeneralAug', ),
         ],
     ),
     dict(
-        type='RandomApply',
-        prob=0.4,
-        transforms=[
+        type       = 'RandomApply' ,
+        prob       = 0.4           ,
+        transforms = [
             dict(type='CropHeight', ),
         ],
     ),

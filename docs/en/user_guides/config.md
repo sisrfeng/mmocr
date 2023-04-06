@@ -1,16 +1,31 @@
 # Config
 
-MMOCR mainly uses Python files as configuration files. The design of its configuration file system integrates the ideas of modularity and inheritance to facilitate various experiments.
+MMOCR mainly uses Python files as configuration files.
+The design of its ¿configuration file system¿ integrates the ideas of modularity and
+inheritance to facilitate various experiments.
 
 ## Common Usage
 
 ```{note}
-This section is recommended to be read together with the primary usage in {external+mmengine:doc}`MMEngine: Config <tutorials/config>`.
+This section is recommended to be read together with the primary usage in
+{external+mmengine:doc}`MMEngine: Config <tutorials/config>`.
 ```
 
-There are three most common operations in MMOCR: inheritance of configuration files, reference to `_base_` variables, and modification of `_base_` variables. Config provides two syntaxes for inheriting and modifying `_base_`, one for Python, Json, and Yaml, and one for Python configuration files only. In MMOCR, we **prefer the Python-only syntax**, so this will be the basis for further description.
+There are three most common operations in MMOCR:
+    inheritance of configuration files,
+    reference to `_base_` variables,
+    and modification of `_base_` variables.
 
-The `configs/textdet/dbnet/dbnet_resnet18_fpnc_1200e_icdar2015.py` is used as an example to illustrate the three common uses.
+Config provides two syntaxes for inheriting and  modifying `_base_`,
+    one for Python,  Json,  and Yaml,
+    and one for Python configuration files only.
+
+In MMOCR,
+    we **prefer the Python-only syntax**,
+    so this will be the basis for further description.
+
+The `configs/textdet/dbnet/dbnet_resnet18_fpnc_1200e_icdar2015.py` is used as an example
+to illustrate the three common uses.
 
 ```Python
 _base_ = [
@@ -43,7 +58,11 @@ val_dataloader = dict(
 
 ### Configuration Inheritance
 
-There is an inheritance mechanism for configuration files, i.e. one configuration file A can use another configuration file B as its base and inherit all the fields directly from it, thus avoiding a lot of copy-pasting.
+There is an inheritance mechanism for configuration files,
+i.e.
+one configuration file A can use another configuration file B as its base and
+inherit all the fields directly from it,
+thus avoiding a lot of copy-pasting.
 
 In `dbnet_resnet18_fpnc_1200e_icdar2015.py` you can see that
 
@@ -56,7 +75,10 @@ _base_ = [
 ]
 ```
 
-The above statement reads all the base configuration files in the list, and all the fields in them are loaded into `dbnet_resnet18_fpnc_1200e_icdar2015.py`. We can see the structure of the configuration file after it has been parsed by running the following statement in a Python interpretation.
+The above statement ¿reads all the base configuration files in the list¿,
+and all the fields in them are loaded into `dbnet_resnet18_fpnc_1200e_icdar2015.py`.
+We can see the structure of the configuration file after it has been parsed by
+    running the following statement in a Python interpretation.
 
 ```Python
 from mmengine import Config
@@ -64,17 +86,25 @@ db_config = Config.fromfile('configs/textdet/dbnet/dbnet_resnet18_fpnc_1200e_icd
 print(db_config)
 ```
 
-It can be found that the parsed configuration contains all the fields and information in the base configuration.
-
+It can be found that the parsed configuration contains all the fields and
+information in the base configuration. 
 ```{note}
 Variables with the same name cannot exist in each `_base_` profile.
 ```
 
 ### `_base_` Variable References
 
-Sometimes we may need to reference some fields in the `_base_` configuration directly in order to avoid duplicate definitions. Suppose we want to get the variable `pseudo` in the `_base_` configuration, we can get the variable in the `_base_` configuration directly via `_base_.pseudo`.
+Sometimes we may need to reference some fields in the `_base_` configuration directly in order to
+    avoid duplicate definitions.
+Suppose we want to get the variable `pseudo` in the `_base_` configuration,
+    we can get the variable in the `_base_` configuration directly via  `_base_.pseudo`.
 
-This syntax has been used extensively in the configuration of MMOCR, and the dataset and pipeline configurations for each model in MMOCR are referenced in the *_base_* configuration. For example,
+This syntax has been used extensively in the configuration of 
+    MMOCR,
+
+and the dataset and  pipeline configurations for each model in MMOCR
+are ¿referenced¿ in the *_base_* configuration.
+For example,
 
 ```Python
 icdar2015_textdet_train = _base_.icdar2015_textdet_train
@@ -88,13 +118,24 @@ train_dataloader = dict(
 
 ### `_base_` Variable Modification
 
-In MMOCR, different algorithms usually have different pipelines in different datasets, so there are often scenarios to modify the `pipeline` in the dataset. There are also many scenarios where you need to modify variables in the `_base_` configuration, for example, modifying the training strategy of an algorithm, replacing some modules of an algorithm(backbone, etc.). Users can directly modify the referenced `_base_` variables using Python syntax. For dict, we also provide a method similar to class attribute modification to modify the contents of the dictionary directly.
+In MMOCR,
+different algorithms usually have different pipelines in different datasets,
+so there are often scenarios to modify the `pipeline` in the dataset.
+
+There are also many scenarios where you need to modify variables in the `_base_` configuration,
+for example,
+modifying the training strategy of an algorithm,
+replacing some modules of an algorithm(backbone,  etc.).
+Users can directly modify the referenced `_base_` variables using ¿Python syntax¿.
+For dict,
+    we also provide a method similar to class attribute modification
+    to modify the contents of the dictionary directly.
 
 1. Dictionary
 
    Here is an example of modifying `pipeline` in a dataset.
 
-   The dictionary can be modified using Python syntax:
+   The ¿dictionary¿ can be modified using Python syntax:
 
    ```Python
    # Get the dataset in _base_
@@ -103,11 +144,9 @@ In MMOCR, different algorithms usually have different pipelines in different dat
    icdar2015_textdet_train.update(pipeline=_base_.train_pipeline)
    ```
 
-   It can also be modified in the same way as changing Python class attributes.
+   It can also be modified in the same way as changing Python ¿class attributes¿.
 
    ```Python
-   # Get the dataset in _base_
-   icdar2015_textdet_train = _base_.icdar2015_textdet_train
    # The class property method is modified
    icdar2015_textdet_train.pipeline = _base_.train_pipeline
    ```
@@ -138,15 +177,13 @@ In MMOCR, different algorithms usually have different pipelines in different dat
 
 ### Command Line Modification
 
-Sometimes we only want to fix part of the configuration and do not want to modify the configuration file itself. For example, if you want to change the learning rate during an experiment but do not want to write a new configuration file, you can pass in parameters on the command line to override the relevant configuration.
-
-We can pass `--cfg-options` on the command line and modify the corresponding fields directly with the arguments after it. For example, we can run the following command to modify the learning rate temporarily for this training session.
-
 ```Shell
 python tools/train.py example.py --cfg-options optim_wrapper.optimizer.lr=1
 ```
 
-For more detailed usage, refer to {external+mmengine:doc}`MMEngine: Command Line Modification <tutorials/config>`.
+
+/data2/wf2/coolS/mmengine/docs/en/advanced_tutorials/config.md 
+
 
 ## Configuration Content
 
@@ -200,9 +237,16 @@ default_hooks = dict(
  custom_hooks = []
 ```
 
-Here is a brief description of a few hooks whose parameters may be changed frequently. For a general modification method, refer to <a href="#base_variable_modification">Modify configuration</a>.
+Here is a brief description of a few hooks whose parameters may be changed frequently.
+For a general modification method,
+    refer to <a href="#base_variable_modification">Modify configuration</a>.
 
-- `LoggerHook`: Used to configure the behavior of the logger. For example, by modifying `interval` you can control the interval of log printing, so that the log is printed once per `interval` iteration, for more settings refer to [LoggerHook API](mmengine.hooks.LoggerHook).
+- `LoggerHook`: Used to configure the behavior of the logger. 
+    For example,
+    by  modifying `interval` you can control the interval of log printing,
+    so that
+    the log is printed once per `interval` iteration,
+    for more settings refer to [LoggerHook API](mmengine.hooks.LoggerHook).
 
 - `CheckpointHook`: Used to configure checkpoint-related behavior, such as saving optimal and/or latest weights. You can also modify `interval` to control the checkpoint saving interval. More settings can be found in [CheckpointHook API](mmengine.hooks.CheckpointHook)
 
@@ -225,7 +269,8 @@ log_processor = dict(type='LogProcessor',
 
 - The logging severity level is the same as that of {external+python:doc}`Python: logging <library/logging>`
 
-- The log processor is mainly used to control the format of the output, detailed functions can be found in {external+mmengine:doc}`MMEngine: logging <advanced_tutorials/logging>`.
+- The log processor is mainly used to control the format of the output,
+    detailed functions can be found in {external+mmengine:doc}`MMEngine: logging <advanced_tutorials/logging>`.
 
   - `by_epoch=True` indicates that the logs are output in accordance to "epoch", and the log format needs to be consistent with the `type='EpochBasedTrainLoop'` parameter in `train_cfg`. For example, if you want to output logs by iteration number, you need to set ` by_epoch=False` in `log_processor` and `type='IterBasedTrainLoop'` in `train_cfg`.
 
@@ -498,11 +543,24 @@ More can be found in {external+mmengine:doc}`MMEngine: Load Weights or Recover T
 
 ### Evaluation Configuration
 
-In model validation and model testing, quantitative measurement of model accuracy is often required. MMOCR performs this function by means of `Metric` and `Evaluator`. For more information, please refer to {external+mmengine:doc}`MMEngine: Evaluation <tutorials/evaluation>` and [Evaluation](../basic_concepts/evaluation.md)
+In model validation and
+model testing,
+quantitative measurement of model accuracy is often required.
+MMOCR performs this function by
+means of `Metric` and `Evaluator`.
+For more information,
+please refer to {external+mmengine:doc}`MMEngine:
+Evaluation <tutorials/evaluation>` and [Evaluation](../basic_concepts/evaluation.md)
 
 #### Evaluator
 
-Evaluator is mainly used to manage multiple datasets and multiple `Metrics`. For single and multiple dataset cases, there are single and multiple dataset evaluators, both of which can manage multiple `Metrics`.
+Evaluator is mainly used to
+manage multiple datasets and
+multiple `Metrics`.
+For single and  multiple dataset cases,
+    there are single and
+    multiple dataset evaluators,
+    both of which  can manage multiple `Metrics`.
 
 The single-dataset evaluator is configured as follows.
 
@@ -518,9 +576,17 @@ val_evaluator = dict(
     metrics=[...])
 ```
 
-`MultiDatasetsEvaluator` differs from single-dataset evaluation in two aspects: `type` and `dataset_prefixes`. The evaluator type must be `MultiDatasetsEvaluator` and cannot be omitted. The `dataset_prefixes` is mainly used to distinguish the results of different datasets with the same evaluation metrics, see [MultiDatasetsEvaluation](../basic_concepts/evaluation.md).
+`MultiDatasetsEvaluator` differs from single-dataset evaluation in two aspects:
+    `type` and `dataset_prefixes`.
 
-Assuming that we need to test accuracy on IC13 and IC15 datasets, the configuration is as follows.
+The evaluator type must be `MultiDatasetsEvaluator` and cannot be omitted.
+The `dataset_prefixes` is mainly used to
+    distinguish the results of different datasets 
+    with the same evaluation metrics,  see [MultiDatasetsEvaluation](../basic_concepts/evaluation.md).
+
+Assuming that we need to test accuracy on IC13 and
+IC15 datasets,
+the configuration is as follows.
 
 ```Python
 #  Multiple datasets, single Metric
@@ -538,7 +604,11 @@ val_evaluator = dict(
 
 #### Metric
 
-A metric evaluates a model's performance from a specific perspective. While there is no such common metric that fits all the tasks, MMOCR provides enough flexibility such that multiple metrics serving the same task can be used simultaneously. Here we list task-specific metrics for reference.
+A metric evaluates a model's performance from a specific perspective.
+While there is no such common metric that fits all the tasks,
+MMOCR provides enough flexibility such that
+multiple metrics serving the same task can be used simultaneously.
+Here we list task-specific metrics for reference.
 
 Text detection: [`HmeanIOUMetric`](mmocr.evaluation.metrics.HmeanIOUMetric)
 
@@ -552,7 +622,9 @@ Text detection as an example, using a single `Metric` in the case of single data
 val_evaluator = dict(type='HmeanIOUMetric')
 ```
 
-Take text recognition as an example, multiple datasets (`IC13` and `IC15`) are evaluated using multiple `Metric`s (`WordMetric` and `CharMetric`).
+Take text recognition as an example,
+multiple datasets (`IC13` and `IC15`)
+are evaluated using multiple `Metric`s (`WordMetric` and `CharMetric`).
 
 ```Python
 val_evaluator = dict(

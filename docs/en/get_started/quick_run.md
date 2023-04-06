@@ -136,9 +136,17 @@ After 400 epochs, we observe that DBNet performs best in the last epoch, with `h
 It may not have been trained to be optimal, but it is sufficient for a demo.
 ```
 
-However, this value only reflects the performance of DBNet on the mini ICDAR 2015 dataset. For a comprehensive evaluation, we also need to see how it performs on out-of-distribution datasets. For example, `tests/data/det_toy_dataset` is a very small real dataset that we can use to verify the actual performance of DBNet.
+However,
+this value only reflects the performance of DBNet on the mini ICDAR 2015 dataset.
+For a comprehensive evaluation,
+we also need to see how it performs on out-of-distribution datasets.
+For example,
+    `tests/data/det_toy_dataset` is a very small real dataset that
+    we can use to verify the actual performance of DBNet.
 
-Before testing, we also need to make some changes to the location of the dataset. Open `configs/_base_/det_datasets/icdar2015.py` and change `data_root` of `icdar2015_textdet_test` to `tests/data/det_toy_dataset`:
+Before testing,
+we also need to make some changes to the location of the dataset.
+Open `configs/_base_/det_datasets/icdar2015.py` and change `data_root` of `icdar2015_textdet_test` to `tests/data/det_toy_dataset`:
 
 ```Python
 # ...

@@ -6,7 +6,12 @@ To meet diverse requirements, MMOCR supports training and testing models on vari
 
 ### Training
 
-`tools/train.py` provides the basic training service. MMOCR recommends using GPUs for model training and testing, but it still enables CPU-Only training and testing. For example, the following commands demonstrate how to train a DBNet model using a single GPU or CPU.
+`tools/train.py` provides the basic training service.
+MMOCR recommends using GPUs for model training and  testing,
+but it still enables CPU-Only training and  testing.
+For example,
+the following commands demonstrate how to train a DBNet model using a single GPU or
+CPU.
 
 ```bash
 # Train the specified MMOCR model by calling tools/train.py
@@ -16,15 +21,21 @@ CUDA_VISIBLE_DEVICES= python tools/train.py ${CONFIG_FILE} [PY_ARGS]
 # Example 1: Training DBNet with CPU
 CUDA_VISIBLE_DEVICES=-1 python tools/train.py configs/textdet/dbnet/dbnet_resnet50-dcnv2_fpnc_1200e_icdar2015.py
 
-# Example 2: Specify to train DBNet with gpu:0, specify the working directory as dbnet/, and turn on mixed precision (amp) training
+# Example 2: Specify to train DBNet with gpu:0, 
+# specify the working directory as dbnet/, and turn on mixed precision (amp) training
 CUDA_VISIBLE_DEVICES=0 python tools/train.py configs/textdet/dbnet/dbnet_resnet50-dcnv2_fpnc_1200e_icdar2015.py --work-dir dbnet/ --amp
 ```
 
 ```{note}
-If multiple GPUs are available, you can specify a certain GPU, e.g. the third one, by setting CUDA_VISIBLE_DEVICES=3.
+If multiple GPUs are available, you can specify a certain GPU,
+e.g. the third one,
+by setting CUDA_VISIBLE_DEVICES=3.
 ```
 
-The following table lists all the arguments supported by `train.py`. Args without the `--` prefix are mandatory, while others are optional.
+The following table lists all the arguments supported by
+`train.py`.
+Args without the `--` prefix are mandatory,
+while others are optional.
 
 | ARGS            | Type | Description                                                                 |
 | --------------- | ---- | --------------------------------------------------------------------------- |
@@ -98,7 +109,8 @@ These two scripts enable training and testing on **single-machine multi-GPU** or
 
 ### Single-machine Multi-GPU
 
-The following commands demonstrate how to train and test with a specified number of GPUs on a **single machine** with multiple GPUs.
+The following commands demonstrate how to train and
+test with a specified number of GPUs on a **single machine** with multiple GPUs.
 
 1. **Training**
 
@@ -118,7 +130,13 @@ The following commands demonstrate how to train and test with a specified number
 
 ### Launching Multiple Tasks on Single Machine
 
-For a workstation equipped with multiple GPUs, the user can launch multiple tasks simultaneously by specifying the GPU IDs. For example, the following command demonstrates how to test DBNet with GPU `[0, 1, 2, 3]` and train CRNN on GPU `[4, 5, 6, 7]`.
+For a workstation equipped with multiple GPUs,
+the user can launch multiple tasks simultaneously by
+specifying the GPU IDs.
+For example,
+the following command demonstrates how to test DBNet with GPU `[0,  1, 2,
+3]` and train CRNN on GPU `[4,  5, 6,
+7]`.
 
 ```bash
 # Specify gpu:0,1,2,3 for testing and assign port number 29500

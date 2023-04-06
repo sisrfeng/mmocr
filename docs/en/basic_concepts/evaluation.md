@@ -1,7 +1,8 @@
 # Evaluation
 
 ```{note}
-Before reading this document, we recommend that you first read {external+mmengine:doc}`MMEngine: Model Accuracy Evaluation Basics <tutorials/evaluation>`.
+Before reading this document,
+we recommend that you first read {external+mmengine:doc}`MMEngine: Model Accuracy Evaluation Basics <tutorials/evaluation>`.
 ```
 
 ## Metrics
@@ -12,7 +13,8 @@ MMOCR implements widely-used evaluation metrics for text detection, text recogni
 val_evaluator = dict(type='HmeanIOUMetric')
 test_evaluator = val_evaluator
 
-# In addition, MMOCR also supports the combined evaluation of multiple metrics for the same task, such as using WordMetric and CharMetric at the same time
+# In addition, MMOCR also supports the combined evaluation of multiple metrics for the same task,
+# such as using WordMetric and CharMetric at the same time
 val_evaluator = [
     dict(type='WordMetric', mode=['exact', 'ignore_case', 'ignore_case_symbol']),
     dict(type='CharMetric')
