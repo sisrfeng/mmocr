@@ -1,6 +1,8 @@
 # Quick Run
 
-This chapter will take you through the basic functions of MMOCR. And we assume you [installed MMOCR from source](install.md#best-practices).
+This chapter will take you through
+the basic functions of MMOCR.
+And we assume you [installed MMOCR from source](install.md#best-practices).
 
 ## Inference
 
@@ -30,7 +32,14 @@ If you are running MMOCR on a server without GUI or via SSH tunnel with X11 forw
 
 A detailed description of MMOCR's inference interface can be found [here](../user_guides/inference.md)
 
-In addition to using our well-provided pre-trained models, you can also train models on your own datasets. In the next section, we will take you through the basic functions of MMOCR by training DBNet on the mini [ICDAR 2015](https://rrc.cvc.uab.es/?ch=4&com=downloads) dataset as an example.
+In addition to
+using our well-provided pre-trained models,
+you can also train models on your own datasets.
+In the next section,
+we will take you through
+the basic functions of MMOCR by
+training DBNet on the mini [ICDAR 2015](https://rrc.cvc.uab.es/?ch=4&com=downloads)
+dataset as an example.
 
 ## Prepare a Dataset
 
